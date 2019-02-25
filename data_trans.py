@@ -1,5 +1,6 @@
 # 解密数据
 import math
+import numpy as np
 
 import matplotlib
 
@@ -83,6 +84,14 @@ def scale(points):
         new_points.append({'x': int((point['x'] - x_min) * scale_ratio), 'y': int((point['y'] - y_min) * scale_ratio),
                            'time': point['time']})
     return new_points
+
+
+def trans2matrix(points):
+    data = np.zeros((128, 128, 3))
+    for point in points:
+        data[int(point['x'])][int(point['y'])] = [1, point['time'] / 100,
+                                                  point['v']]
+    return data
 
 
 if __name__ == '__main__':

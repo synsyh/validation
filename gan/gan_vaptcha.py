@@ -14,6 +14,8 @@ import sys
 
 import numpy as np
 
+from load_mongodb import MongoData
+
 
 class GAN():
     def __init__(self):
@@ -91,13 +93,7 @@ class GAN():
 
     def train(self, epochs, batch_size=128, sample_interval=50):
 
-        # Load the dataset
-        (X_train, _), (_, _) = mnist.load_data()
-
-        # Rescale -1 to 1
-        X_train = X_train / 127.5 - 1.
-        X_train = np.expand_dims(X_train, axis=3)
-
+        mongo_data = MongoData()
         # Adversarial ground truths
         valid = np.ones((batch_size, 1))
         fake = np.zeros((batch_size, 1))
@@ -109,8 +105,7 @@ class GAN():
             # ---------------------
 
             # Select a random batch of images
-            idx = np.random.randint(0, X_train.shape[0], batch_size)
-            imgs = X_train[idx]
+            imgs = mongo_data.get_batch_matrix()
 
             noise = np.random.normal(0, 1, (batch_size, self.latent_dim))
 
@@ -135,8 +130,8 @@ class GAN():
             print("%d [D loss: %f, acc.: %.2f%%] [G loss: %f]" % (epoch, d_loss[0], 100 * d_loss[1], g_loss))
 
             # If at save interval => save generated image samples
-            if epoch % sample_interval == 0:
-                self.sample_images(epoch)
+            # if epoch % sample_interval == 0:
+            #     self.sample_images(epoch)
 
     def sample_images(self, epoch):
         r, c = 5, 5
