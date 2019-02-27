@@ -13,8 +13,12 @@ file_path = './data/track1000'
 
 def get_velocity(ps):
     for i in range(len(ps) - 2):
-        v = math.sqrt((ps[i + 2]['x'] - ps[i]['x']) ** 2 + (ps[i + 2]['y'] - ps[i]['y']) ** 2) / (
+        try:
+            v = math.sqrt((ps[i + 2]['x'] - ps[i]['x']) ** 2 + (ps[i + 2]['y'] - ps[i]['y']) ** 2) / (
                 ps[i + 2]['time'] - ps[i]['time'])
+        except Exception as e:
+            print(e)
+            v = 0
         ps[i + 1]['v'] = v
     ps[0]['v'] = 0
     ps[-1]['v'] = ps[-2]['v']
@@ -25,13 +29,16 @@ def trans_from_data(code):
     scale = len(Sample)
     length = int(len(code))
     result = 0
-    for i in range(int(length / 3)):
-        if i == 0 and code[i] == '_':
-            result = Sample.index(code[i + 1]) * \
-                     scale + Sample.index(code[i + 2])
-        else:
-            result = Sample.index(code[i]) * scale * scale + Sample.index(
-                code[i + 1]) * scale + Sample.index(code[i + 2])
+    try:
+        for i in range(int(length / 3)):
+            if i == 0 and code[i] == '_':
+                result = Sample.index(code[i + 1]) * \
+                         scale + Sample.index(code[i + 2])
+            else:
+                result = Sample.index(code[i]) * scale * scale + Sample.index(
+                    code[i + 1]) * scale + Sample.index(code[i + 2])
+    except Exception as e:
+        print(e)
     return result
 
 
