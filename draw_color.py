@@ -55,7 +55,35 @@ def draw(verify_paths):
     plt.show()
 
 
+def draw_matrix(data):
+    n = len(data)
+    color_start = (0, 0, 255)
+    color_end = (255, 0, 0)
+    all_gradient = [color_end[i] - color_start[i] for i in range(3)]
+    plt.figure()
+    for i in range(n):
+        v_max = -1
+        for x in range(128):
+            for y in range(128):
+                if data[i][x][y][-1] > v_max:
+                    v_max = data[i][x][y][-1]
+        gradient = [g / v_max for g in all_gradient]
+        plt.subplot(3, 3, i + 1)
+        plt.title('max_v:' + str(v_max)[:4])
+        for x in range(128):
+            for y in range(128):
+                if data[i][x][y][0] == 0:
+                    continue
+                else:
+                    steps = data[i][x][y][2]
+                    c = color_gradient(steps, gradient)
+                    plt.scatter(x, y, c=c)
+    return plt
+
+
 if __name__ == '__main__':
     mongo_data = load_mongodb.MongoData()
-    verify_paths = mongo_data.get_mongodb_batch(10)
-    draw(verify_paths)
+    # verify_paths = mongo_data.get_mongodb_batch()
+    # draw(verify_paths)
+    ms = mongo_data.get_batch_matrix(size=10)
+    draw_matrix(ms)
