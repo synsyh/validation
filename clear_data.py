@@ -26,6 +26,16 @@ class DataCleaner:
                 self.mongo_data.col.remove(self.mongo_data.object_id)
                 break
 
+    def mul_time_error(self, points):
+        for j in range(len(points) - 2):
+            if points[j]['time'] == points[j + 2]['time']:
+                tmp = self.mongo_data.col.find({'_id': ObjectId(self.mongo_data.object_id)})
+                for i in tmp:
+                    print(i)
+                    self.t_col.insert_one(i)
+                self.mongo_data.col.remove(self.mongo_data.object_id)
+                break
+
     def position_error(self, points):
         points = scale(points)
         for j in range(len(points) - 1):
@@ -54,7 +64,8 @@ class DataCleaner:
             for path in verify_paths:
                 points = analysis_data(path)
                 # self.time_error(points)
-                self.position_error(points)
+                self.mul_time_error(points)
+                # self.position_error(points)
         print(self.mongo_data.object_id)
 
 

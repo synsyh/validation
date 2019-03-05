@@ -4,7 +4,6 @@ import numpy as np
 
 import matplotlib
 
-matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 Sample = "abcdefgh234lmntuwxyz"
@@ -50,39 +49,28 @@ def analysis_data(code):
     return points
 
 
-def get_datas(file_path):
-    with open(file_path, 'r') as f:
-        for line in f.readline():
-            points = analysis_data(line)
-            points = sorted(points, key=lambda x: x['time'])
-            max_y = max(points, key=lambda x: x['y'])['y']
-            min_y = min(points, key=lambda x: x['y'])['y']
-            for point in points:
-                xs.append(point['x'])
-                ys.append(-point['y'] + max_y + min_y)
-
-
-def scale(points):
+def scale(points, if_zero=False):
     boundary = 120
-    x_max, x_min, y_max, y_min = -1, float('inf'), -1, float('inf')
-    for point in points:
-        if point['x'] < x_min:
-            x_min = point['x']
-        if point['x'] > x_max:
-            x_max = point['x']
-        if point['y'] < y_min:
-            y_min = point['y']
-        if point['y'] > y_max:
-            y_max = point['y']
+    y_min = min(points, key=lambda x: x['y'])['y']
+    y_max = max(points, key=lambda x: x['y'])['y']
+    x_min = min(points, key=lambda x: x['x'])['x']
+    x_max = max(points, key=lambda x: x['x'])['x']
     if x_max - x_min > y_max - y_min:
         dis = x_max - x_min
     else:
         dis = y_max - y_min
     scale_ratio = boundary / dis
     new_points = []
-    for point in points:
-        new_points.append({'x': int((point['x'] - x_min) * scale_ratio), 'y': int((point['y'] - y_min) * scale_ratio),
-                           'time': point['time']})
+    if if_zero:
+        for point in points:
+            new_points.append({'x': int((point['x'] - points[0]['x']) * scale_ratio),
+                               'y': int((point['y'] - points[0]['y']) * scale_ratio),
+                               'time': point['time']})
+    else:
+        for point in points:
+            new_points.append(
+                {'x': int((point['x'] - x_min) * scale_ratio), 'y': int((point['y'] - y_min) * scale_ratio),
+                 'time': point['time']})
     return new_points
 
 
@@ -93,36 +81,35 @@ def trans2matrix(points):
                                                   point['v']]
     return data
 
-
-if __name__ == '__main__':
-    ps = analysis_data(
-        'cczccnccgcbzcblcaycamcabbzubzhbzabytby2bycbxxbxlbxgbxbbwwbwtbwnbwnbwubwzbxebx4bxwbygbyubzdbz2bzmbzwbzzcaeca3ca3camcamcancaucawcaycbacbccbfcb2cb3_za_yw_yw_yu_yu_ym_yl_yg_ye_yb_xy_xu_xn_x4_x3_xh_xd_xa_wn_w2_wd_uu_u3_ud_ty_tu_tt_tt_tu_ub_uf_u3_ut_wa_wg_wt_xd_xn_xz_ye_ym_yx_zc_z2_zxbadba3bat_aa_fw_hw_3z_ln_td_ua_x4_zdbawbc4bedbfwb3dbm4bxlcclc2hc4xcmlcteczedfbdhldmlduxdzeeclehle4yemleteeuyexlezefaxfclfeeffyfhlf4yfmlftefuyfzfgaxgeehbm')
-    ps = scale(ps)
-    ps = sorted(ps, key=lambda x: x['time'])
-
-    xs = []
-    ys = []
-
-    zx = []
-    zy = []
-
-    mx = []
-    my = []
-
-    maxy = max(ps, key=lambda x: x['y'])['y']
-    miny = min(ps, key=lambda x: x['y'])['y']
-    for p in ps:
-        xs.append(p['x'])
-        ys.append(-p['y'] + miny + maxy)
-    zx.append(xs[0])
-    zy.append(ys[0])
-
-    lindex = xs.__len__() - 1
-
-    mx.append(xs[lindex])
-    my.append(ys[lindex])
-
-    fig = plt.figure()
-    plt.plot(xs, ys)
-    plt.axis('off')
-    plt.show()
+# if __name__ == '__main__':
+#     ps = analysis_data(
+#         'cczccnccgcbzcblcaycamcabbzubzhbzabytby2bycbxxbxlbxgbxbbwwbwtbwnbwnbwubwzbxebx4bxwbygbyubzdbz2bzmbzwbzzcaeca3ca3camcamcancaucawcaycbacbccbfcb2cb3_za_yw_yw_yu_yu_ym_yl_yg_ye_yb_xy_xu_xn_x4_x3_xh_xd_xa_wn_w2_wd_uu_u3_ud_ty_tu_tt_tt_tu_ub_uf_u3_ut_wa_wg_wt_xd_xn_xz_ye_ym_yx_zc_z2_zxbadba3bat_aa_fw_hw_3z_ln_td_ua_x4_zdbawbc4bedbfwb3dbm4bxlcclc2hc4xcmlcteczedfbdhldmlduxdzeeclehle4yemleteeuyexlezefaxfclfeeffyfhlf4yfmlftefuyfzfgaxgeehbm')
+#     ps = scale(ps)
+#     ps = sorted(ps, key=lambda x: x['time'])
+#
+#     xs = []
+#     ys = []
+#
+#     zx = []
+#     zy = []
+#
+#     mx = []
+#     my = []
+#
+#     maxy = max(ps, key=lambda x: x['y'])['y']
+#     miny = min(ps, key=lambda x: x['y'])['y']
+#     for p in ps:
+#         xs.append(p['x'])
+#         ys.append(-p['y'] + miny + maxy)
+#     zx.append(xs[0])
+#     zy.append(ys[0])
+#
+#     lindex = xs.__len__() - 1
+#
+#     mx.append(xs[lindex])
+#     my.append(ys[lindex])
+#
+#     fig = plt.figure()
+#     plt.plot(xs, ys)
+#     plt.axis('off')
+#     plt.show()

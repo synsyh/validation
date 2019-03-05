@@ -57,5 +57,5 @@ def draw(verify_paths):
 
 if __name__ == '__main__':
     mongo_data = load_mongodb.MongoData()
-    verify_paths = mongo_data.get_mongodb_batch()
+    verify_paths = mongo_data.get_mongodb_batch(10)
     draw(verify_paths)
