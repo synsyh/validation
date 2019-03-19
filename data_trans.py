@@ -14,7 +14,7 @@ def get_velocity(ps):
     for i in range(len(ps) - 2):
         try:
             v = math.sqrt((ps[i + 2]['x'] - ps[i]['x']) ** 2 + (ps[i + 2]['y'] - ps[i]['y']) ** 2) / (
-                ps[i + 2]['time'] - ps[i]['time'])
+                    ps[i + 2]['time'] - ps[i]['time'])
         except Exception as e:
             print(e)
             v = 0
@@ -88,35 +88,7 @@ def trans2matrix(points):
                                                   point['v']]
     return data
 
-# if __name__ == '__main__':
-#     ps = analysis_data(
-#         'cczccnccgcbzcblcaycamcabbzubzhbzabytby2bycbxxbxlbxgbxbbwwbwtbwnbwnbwubwzbxebx4bxwbygbyubzdbz2bzmbzwbzzcaeca3ca3camcamcancaucawcaycbacbccbfcb2cb3_za_yw_yw_yu_yu_ym_yl_yg_ye_yb_xy_xu_xn_x4_x3_xh_xd_xa_wn_w2_wd_uu_u3_ud_ty_tu_tt_tt_tu_ub_uf_u3_ut_wa_wg_wt_xd_xn_xz_ye_ym_yx_zc_z2_zxbadba3bat_aa_fw_hw_3z_ln_td_ua_x4_zdbawbc4bedbfwb3dbm4bxlcclc2hc4xcmlcteczedfbdhldmlduxdzeeclehle4yemleteeuyexlezefaxfclfeeffyfhlf4yfmlftefuyfzfgaxgeehbm')
-#     ps = scale(ps)
-#     ps = sorted(ps, key=lambda x: x['time'])
-#
-#     xs = []
-#     ys = []
-#
-#     zx = []
-#     zy = []
-#
-#     mx = []
-#     my = []
-#
-#     maxy = max(ps, key=lambda x: x['y'])['y']
-#     miny = min(ps, key=lambda x: x['y'])['y']
-#     for p in ps:
-#         xs.append(p['x'])
-#         ys.append(-p['y'] + miny + maxy)
-#     zx.append(xs[0])
-#     zy.append(ys[0])
-#
-#     lindex = xs.__len__() - 1
-#
-#     mx.append(xs[lindex])
-#     my.append(ys[lindex])
-#
-#     fig = plt.figure()
-#     plt.plot(xs, ys)
-#     plt.axis('off')
-#     plt.show()
+
+if __name__ == '__main__':
+    ps = analysis_data(
+        'cczccnccgcbzcblcaycamcabbzubzhbzabytby2bycbxxbxlbxgbxbbwwbwtbwnbwnbwubwzbxebx4bxwbygbyubzdbz2bzmbzwbzzcaeca3ca3camcamcancaucawcaycbacbccbfcb2cb3_za_yw_yw_yu_yu_ym_yl_yg_ye_yb_xy_xu_xn_x4_x3_xh_xd_xa_wn_w2_wd_uu_u3_ud_ty_tu_tt_tt_tu_ub_uf_u3_ut_wa_wg_wt_xd_xn_xz_ye_ym_yx_zc_z2_zxbadba3bat_aa_fw_hw_3z_ln_td_ua_x4_zdbawbc4bedbfwb3dbm4bxlcclc2hc4xcmlcteczedfbdhldmlduxdzeeclehle4yemleteeuyexlezefaxfclfeeffyfhlf4yfmlftefuyfzfgaxgeehbm')

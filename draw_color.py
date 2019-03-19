@@ -86,4 +86,5 @@ if __name__ == '__main__':
     # verify_paths = mongo_data.get_mongodb_batch()
     # draw(verify_paths)
     ms = mongo_data.get_batch_matrix(size=10)
+    ms = data_trans.analysis_data('bzzbznbyxbwwbuwbtnbthbtcbnwbn3bncbmxbmubmubmxbnabnebnmbnybtdbt4btubufbumbuybwgbwubxcbx2bxtbyfbynbyybzebz3bztbzzcafcamcaxcbdcblccbccwcdccdlcdwcedcemceycfccffcfhcfncfycgccgfcg3cg4cgmba3bafbaa_z2_zc_yu_yt_ym_ym_ym_yn_yw_zc_znbafbalbaubbfbblbbubbzbcbbcdbcgbcgbchbchbchbchbchbchbchbcfbcfbcebccbcbbbzbbxbbtbbmbbhbbebazbawbalbahbac_zt_zh_zc_yw_y4_yc_xu_x2_xd_wx_wm_wh_aa_ed_fw_h3_2f_3z_4w_m4_ua_x4bbnb4wbm4btdbuwbwnbx4bzccabcawcc3cdgcedcezcfwcgnch3c2gc3dc3zclncngctdcuwcwncx3cygczdczzdawdbudc3ddgdeddezdfwdgtd2fd3dd4wdlndm3dngdtdduwdx3dyfdzzec3efh')
     draw_matrix(ms)

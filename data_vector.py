@@ -61,6 +61,7 @@ def trans2vector_matrix(points, max_len, step=1):
 def get_regression_data(verify_path):
     points = get_velocity(scale(analysis_data(verify_path['VerifyPath'])))
 
+
 if __name__ == '__main__':
     datas = get_data()
     vps = trans2vector(datas)
