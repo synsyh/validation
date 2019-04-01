@@ -28,7 +28,7 @@ def read_data(vp):
             2 * df['dis'].shift(-1) * df['dis'])
     df['angle_dif'] = df['angle'] - df['angle'].shift(1)
     if df['v'].max() > 4:
-        print('Eroor for velocity:')
+        print('Eroor for velocity:%.2f' % df.v.max())
     qu = df['angle_dif'].quantile(.75)
     ql = df['angle_dif'].quantile(.25)
     qr = qu - ql
@@ -57,12 +57,9 @@ def read_data(vp):
                 warp_ranges.append(warp_range)
                 warp_range = []
         k += 1
-    try:
-        if warp_index[-1] - warp_index[-2] == 1 or warp_index[-1] - warp_index[-2] == 2:
-            warp_range.append(warp_index[-1])
-            warp_ranges.append(warp_range)
-    except ValueError as e:
-        print(e)
+    if len(warp_index) > 2 and (warp_index[-1] - warp_index[-2] == 1 or warp_index[-1] - warp_index[-2] == 2):
+        warp_range.append(warp_index[-1])
+        warp_ranges.append(warp_range)
     jsn_tmp = []
     for wr in warp_ranges:
         warp_df = df.loc[wr]
@@ -74,13 +71,29 @@ def read_data(vp):
 
 
 def read_model():
-    model_path = './data/vaptcha_clusters_3000.json'
+    model_path = '/Users/sunyuning/PycharmProjects/validation/traclus/data/vaptcha_clusters_3000.json'
     with open(model_path) as f:
         cluster_datas = json.loads(f.read())
     all_segments = []
     for points in cluster_datas:
         segments = []
         for point in points:
+            ps = Point(point['start']['x'], point['start']['y'])
+            pe = Point(point['end']['x'], point['end']['y'])
+            line_segment = LineSegment(ps, pe)
+            segments.append(line_segment)
+        all_segments.append(segments)
+    return all_segments
+
+
+def read_cluster():
+    model_path = './data/vaptcha_output.json'
+    with open(model_path) as f:
+        cluster_datas = json.loads(f.read())
+    all_segments = []
+    for cd in cluster_datas:
+        segments = []
+        for point in cd:
             ps = Point(point['start']['x'], point['start']['y'])
             pe = Point(point['end']['x'], point['end']['y'])
             line_segment = LineSegment(ps, pe)
@@ -109,7 +122,7 @@ def check_trajectory(vp):
                     continue
                 break
     try:
-        rate = p / n * 100
+        rate = p / n
     except ZeroDivisionError as e:
         print('No warp point')
         rate = 0
@@ -118,8 +131,7 @@ def check_trajectory(vp):
 
 if __name__ == '__main__':
     mongo_data = MongoData()
-    vps = mongo_data.get_mongodb_batch_info(size=50)
+    vps = mongo_data.get_mongodb_batch_info(size=1)
     for i, vp in enumerate(vps):
-        start_time = time.time()
-        vp = vp['VerifyPath']
-        print(str(i) + ':\t' + str(check_trajectory(vp)))
+        print(check_trajectory(vp['VerifyPath']))
+

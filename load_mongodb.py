@@ -6,7 +6,7 @@ from data_trans import trans2matrix, analysis_data, scale, get_velocity
 
 
 class MongoData:
-    def __init__(self, object_id='5bdd2357b87546075830aad1'):
+    def __init__(self, object_id='5c1302edcc490e0734877031'):
         self.client = pymongo.MongoClient('mongodb://root:Koumin917@192.168.0.2:27017/')
         self.db = self.client['vaptcha']
         self.col = self.db['userdrawpath']

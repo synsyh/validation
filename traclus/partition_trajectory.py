@@ -76,14 +76,14 @@ def partition_trajectory(trajectory_line_segs,
     trajectory_line_segs.append(LineSegment(last_pt, last_pt))
 
     for high in range(2, len(trajectory_line_segs)):
-        if trajectory_line_segs[high - 2].unit_vector \
-                .almost_equals(trajectory_line_segs[high - 1].unit_vector):
+        if trajectory_line_segs[high - 2].unit_vector.almost_equals(trajectory_line_segs[high - 1].unit_vector):
             continue
-        elif trajectory_line_segs[high].start.almost_equals(trajectory_line_segs[low].start) or \
-                partition_cost_func(trajectory_line_segs, low, high) > \
-                no_partition_cost_func(trajectory_line_segs, low, high):
-            partition_points.append(high - 1)
-            low = high - 1
+        elif not trajectory_line_segs[high].start.almost_equals(trajectory_line_segs[low].start):
+            partition_cost = partition_cost_func(trajectory_line_segs, low, high)
+            no_partition_cost = no_partition_cost_func(trajectory_line_segs, low, high)
+            if partition_cost > no_partition_cost:
+                partition_points.append(high - 1)
+                low = high - 1
 
     partition_points.append(len(trajectory_line_segs) - 1)
     return partition_points

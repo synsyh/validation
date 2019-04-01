@@ -46,7 +46,7 @@ def draw(raw_data):
 
 
 if __name__ == '__main__':
-    raw_data = 'bc3bctbd4bdubecbehbewbfabfbbfbbfabeube4befbdybdnbddbctbchbccbbtbb3bbdbaxbambahbab_zx_zu_zm_z4_z4_z4_z2_zg_zg_yh_y4_yw_yx_za_zc_zg_z4_zubabbahbanbaxbbabbcbbgbbhbbhbbhbbgbbdbbbbazbaxbaubanbalbahbac_zw_zl_zf_yy_yn_y2_yc_aa_ea_3n_mg_u2_ytbg4b3ebmxbwgbyycbmcewcfhchac23c4gcllctfcw3cyaczmdcgdeedfdd2wdladncdyeeadebledneexehde4tetg'
+    raw_data = '_hd_hb_ha_gy_gu_gl_gh_ge_gb_fw_fm_ff_fc_xt_xh_xb_wu_w3_wc_uw_u4_ug_tz_tm_te_nz_aa_ch_dc_dz_ew_fm_g3_hf_2b_3w_l2_nc_um'
     points = data_trans.analysis_data(raw_data)
     points = data_trans.scale(points)
     draw(points)

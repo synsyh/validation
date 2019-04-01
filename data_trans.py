@@ -28,16 +28,13 @@ def trans_from_data(code):
     scale = len(Sample)
     length = int(len(code))
     result = 0
-    try:
-        for i in range(int(length / 3)):
-            if i == 0 and code[i] == '_':
-                result = Sample.index(code[i + 1]) * \
-                         scale + Sample.index(code[i + 2])
-            else:
-                result = Sample.index(code[i]) * scale * scale + Sample.index(
-                    code[i + 1]) * scale + Sample.index(code[i + 2])
-    except Exception as e:
-        print(e)
+    for i in range(int(length / 3)):
+        if i == 0 and code[i] == '_':
+            result = Sample.index(code[i + 1]) * \
+                     scale + Sample.index(code[i + 2])
+        else:
+            result = Sample.index(code[i]) * scale * scale + Sample.index(
+                code[i + 1]) * scale + Sample.index(code[i + 2])
     return result
 
 
@@ -51,6 +48,7 @@ def analysis_data(code):
         x = code[ix:ix + 3]
         y = code[iy:iy + 3]
         t = code[it:it + 3]
+
         points.append({'x': int(trans_from_data(x)), 'y': int(trans_from_data(y)), 'time': int(trans_from_data(t))})
 
     return points
